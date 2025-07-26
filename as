@@ -2072,20 +2072,20 @@ RootJoint.C0=Lerp(RootJoint.C0,angles(-1.5707963267948966,0,3.141592653589793),d
 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,0),angles(0,-1.5707963267948966,0)),deltaTime) 
 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.5707963267948966,0,3.141592653589793)),deltaTime) end,
 	})
-	-- Variable global para controlar el estado del modo q
-local modoQActivo = false
+	local modoQActivo = false  -- variable global para alternar
 
 addmode("q", {
     modeEntered = function()
-        -- Alternar estado
         modoQActivo = not modoQActivo
-
-        -- Cambiar velocidad según estado
+        
         if modoQActivo then
             setWalkSpeed(150)
         else
             setWalkSpeed(60)
         end
+
+        -- Salir del modo inmediatamente para permitir toggle con un solo click
+        exitmode("q")  -- Esta función debe cerrar el modo actual; si no tienes esta función, reemplaza con la función equivalente para salir del modo
     end,
 
     idle = function()
@@ -2109,8 +2109,6 @@ addmode("q", {
         RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1, 0), angles(0, math.pi/2, 0)), deltaTime)
         Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(-math.pi/2, 0, math.pi)), deltaTime)
         RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5, 0), angles(0, math.pi/2, 0)), deltaTime)
-
-        -- Aquí no tocamos velocidad porque ya se alterna en modeEntered
     end,
 
 	})
