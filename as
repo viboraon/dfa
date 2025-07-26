@@ -2072,21 +2072,46 @@ RootJoint.C0=Lerp(RootJoint.C0,angles(-1.5707963267948966,0,3.141592653589793),d
 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,0),angles(0,-1.5707963267948966,0)),deltaTime) 
 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.5707963267948966,0,3.141592653589793)),deltaTime) end,
 	})
-	addmode("q", {
-		modeEntered = function()
-			setWalkSpeed(150)
-		end,
-		idle = function()
-			velYchg()
+	-- Variable global para controlar el estado del modo q
+local modoQActivo = false
 
-RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,-6,0),angles(-3.141592653589793,0,3.141592653589793)),deltaTime)  LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(0,-1.5707963267948966,0)),deltaTime)  LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,0),angles(0,-1.5707963267948966,0)),deltaTime)  RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(0,1.5707963267948966,0)),deltaTime)  Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.5707963267948966,0,3.141592653589793)),deltaTime)  RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1,0.5,0),angles(0,1.5707963267948966,0)),deltaTime) end,
-		 = function()
-			velYchg()
-			local Vfw, Vrt = velbycfrvec()
+addmode("q", {
+    modeEntered = function()
+        -- Alternar estado
+        modoQActivo = not modoQActivo
 
-RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,-6,0),angles(-3.141592653589793,0,3.141592653589793)),deltaTime)  LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(0,-1.5707963267948966,0)),deltaTime)  LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,0),angles(0,-1.5707963267948966,0)),deltaTime)  RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(0,1.5707963267948966,0)),deltaTime)  Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.5707963267948966,0,3.141592653589793)),deltaTime)  RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1,0.5,0),angles(0,1.5707963267948966,0)),deltaTime)
-			setWalkSpeed(60)
-		end,
+        -- Cambiar velocidad según estado
+        if modoQActivo then
+            setWalkSpeed(150)
+        else
+            setWalkSpeed(60)
+        end
+    end,
+
+    idle = function()
+        velYchg()
+
+        RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, -6, 0), angles(-math.pi, 0, math.pi)), deltaTime)
+        LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1, 0), angles(0, -math.pi/2, 0)), deltaTime)
+        LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5, 0), angles(0, -math.pi/2, 0)), deltaTime)
+        RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1, 0), angles(0, math.pi/2, 0)), deltaTime)
+        Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(-math.pi/2, 0, math.pi)), deltaTime)
+        RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5, 0), angles(0, math.pi/2, 0)), deltaTime)
+    end,
+
+    [""] = function()
+        velYchg()
+        local Vfw, Vrt = velbycfrvec()
+
+        RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, -6, 0), angles(-math.pi, 0, math.pi)), deltaTime)
+        LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1, 0), angles(0, -math.pi/2, 0)), deltaTime)
+        LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5, 0), angles(0, -math.pi/2, 0)), deltaTime)
+        RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1, 0), angles(0, math.pi/2, 0)), deltaTime)
+        Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(-math.pi/2, 0, math.pi)), deltaTime)
+        RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5, 0), angles(0, math.pi/2, 0)), deltaTime)
+
+        -- Aquí no tocamos velocidad porque ya se alterna en modeEntered
+    end,
 
 	})
 	addmode("p", {
